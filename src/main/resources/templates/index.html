@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SpringBoot sample with Amazon S3</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>content</th>
+        <th>images</th>
+    </tr>
+    <tr th:each="foodMemo : ${foodMemoList}">
+        <td th:text="${foodMemo.id}"></td>
+        <td th:text="${foodMemo.title}"></td>
+        <td th:text="${foodMemo.content}"></td>
+        <td>
+            <div th:each="imagePath : ${foodMemo.imagePaths}">
+                <img th:src="${imagePath}" alt="食べ物メモ画像"/>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
