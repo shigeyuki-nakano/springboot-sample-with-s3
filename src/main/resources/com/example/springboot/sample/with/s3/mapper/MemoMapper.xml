@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.springboot.sample.with.s3.mapper.FoodMemoMapper">
+<mapper namespace="com.example.springboot.sample.with.s3.mapper.MemoMapper">
     <select id="findAll" resultMap="findAllResultMap">
         SELECT id,
                title,
@@ -10,14 +10,14 @@
         FROM memo
     </select>
 
-    <resultMap id="findAllResultMap" type="com.example.springboot.sample.with.s3.entity.MemoEntity">
+    <resultMap id="findAllResultMap" type="com.example.springboot.sample.with.s3.entity.MemoDetailEntity">
         <collection
                 property="images"
                 ofType="com.example.springboot.sample.with.s3.entity.ImageEntity"
                 select="findImageByMemoId"
                 column="id"/>
     </resultMap>
-    
+
     <select id="findImageByMemoId" parameterType="int"
             resultType="com.example.springboot.sample.with.s3.entity.ImageEntity">
         SELECT id,
@@ -26,4 +26,10 @@
         FROM image
         where memo_id = #{id}
     </select>
+
+
+    <insert id="register" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO memo (title, content)
+        VALUES (#{entity.title}, #{entity.content})
+    </insert>
 </mapper>

@@ -5,13 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageEntity {
+public class MemoDetailEntity {
 
-    private Integer id;
-    private int memoId;
-    private String path;
+    private int id;
+    private String title;
+    private String content;
+    private List<ImageEntity> images;
 }

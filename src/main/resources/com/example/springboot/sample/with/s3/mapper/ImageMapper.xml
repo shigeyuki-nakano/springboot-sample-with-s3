@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.sample.with.s3.mapper.ImageMapper">
+    <insert id="register">
+        INSERT INTO image (memo_id, path)
+        VALUES (#{entity.memoId}, #{entity.path})
+    </insert>
+</mapper>

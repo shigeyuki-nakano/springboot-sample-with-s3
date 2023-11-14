@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>SpringBoot sample with Amazon S3</title>
+</head>
+<body>
+<form
+        action="#"
+        method="post"
+        th:action="@{/create}"
+        th:object="${request}"
+        enctype="multipart/form-data">
+    <div>
+        <label>
+            title:<br/>
+            <input type="text" th:field="${request.title}"/>
+        </label>
+        <!--        <div th:errors="*{title}" th:if="${#fields.hasErrors('title')}"></div>-->
+    </div>
+    <div>
+        <label>
+            content:<br/>
+            <textarea name="content" th:field="${request.content}"></textarea>
+        </label>
+        <!--        <div th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></div>-->
+    </div>
+    <div>
+        <label>
+            image:<br/>
+            <input id="image" type="file" th:field="${request.imageDataList}" accept="image/jpeg, image/png" multiple>
+        </label>
+        <!--        <div th:errors="*{imageDataList}" th:if="${#fields.hasErrors('imageDataList')}"></div>-->
+    </div>
+    <div id="image-preview"></div>
+    <div>
+        <input type="submit" value="送信"/>
+    </div>
+</form>
+</body>
+
+<script>
+    const previewElement = document.getElementById('image-preview');
+
+    function previewImage(file) {
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.alt = "画像プレビュー"
+            previewElement.appendChild(img);
+        }
+
+        reader.readAsDataURL(file);
+    }
+
+    function deleteAllPreviewImage() {
+        while (previewElement.firstChild) {
+            previewElement.removeChild(previewElement.firstChild)
+        }
+    }
+
+    const imageInput = document.getElementById("image")
+    imageInput.addEventListener("change", (event) => {
+        deleteAllPreviewImage()
+        Array.from(event.target.files).forEach((file) => {
+            previewImage(file)
+        })
+    })
+</script>
+</html>

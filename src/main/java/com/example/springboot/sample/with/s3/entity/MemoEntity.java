@@ -1,14 +1,25 @@
 package com.example.springboot.sample.with.s3.entity;
 
+import com.example.springboot.sample.with.s3.model.FoodMemo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemoEntity {
 
-    private int id;
+    private Integer id;
     private String title;
     private String content;
-    private List<ImageEntity> images;
+
+    public static MemoEntity of(FoodMemo foodMemo) {
+        return MemoEntity.builder()
+                .content(foodMemo.getContent())
+                .title(foodMemo.getTitle())
+                .build();
+    }
 }

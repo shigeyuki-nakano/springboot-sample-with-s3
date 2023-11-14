@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper>
-<mapper namespace="com.example.springboot.sample.with.s3.mapper.FoodMemoMapper">
+<mapper namespace="com.example.springboot.sample.with.s3.mapper.MemoMapper">
     <select id="findAll" resultMap="findAllResultMap">
         SELECT
-            fm.id,
-            fm.title,
-            fm.content,
-            image.path as imagePaths
+        fm.id,
+        fm.title,
+        fm.content,
+        image.path as imagePaths
         FROM food_memo AS fm
         INNER JOIN image ON fm.id = image.id
     </select>

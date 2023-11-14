@@ -1,8 +1,10 @@
 package com.example.springboot.sample.with.s3.repository.impl;
 
-import com.example.springboot.sample.with.s3.dto.FoodMemo;
 import com.example.springboot.sample.with.s3.entity.ImageEntity;
-import com.example.springboot.sample.with.s3.mapper.FoodMemoMapper;
+import com.example.springboot.sample.with.s3.entity.MemoEntity;
+import com.example.springboot.sample.with.s3.mapper.ImageMapper;
+import com.example.springboot.sample.with.s3.mapper.MemoMapper;
+import com.example.springboot.sample.with.s3.model.FoodMemo;
 import com.example.springboot.sample.with.s3.repository.FoodMemoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -13,10 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FoodMemoRepositoryImpl implements FoodMemoRepository {
 
-    private final FoodMemoMapper foodMemoMapper;
+    private final MemoMapper memoMapper;
+    private final ImageMapper imageMapper;
 
     public List<FoodMemo> findAll() {
-        final var entityList = foodMemoMapper.findAll();
+        final var entityList = memoMapper.findAll();
 
         return entityList.stream()
                 .map(entity -> FoodMemo.builder()
@@ -28,5 +31,17 @@ public class FoodMemoRepositoryImpl implements FoodMemoRepository {
                                 .toList())
                         .build())
                 .toList();
+    }
+
+    public void register(FoodMemo foodMemo) {
+        final var memoEntity = MemoEntity.of(foodMemo);
+
+        memoMapper.register(memoEntity);
+        foodMemo.getImagePaths()
+                .forEach(imagePath ->
+                        imageMapper.register(ImageEntity.builder()
+                                .memoId(memoEntity.getId())
+                                .path(imagePath)
+                                .build()));
     }
 }
