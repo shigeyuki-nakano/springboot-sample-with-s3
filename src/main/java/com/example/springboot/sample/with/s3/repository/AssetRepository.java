@@ -11,4 +11,11 @@ public interface AssetRepository {
      * @return アップロードしたファイルのパス
      */
     String upload(File file);
+
+    /**
+     * 指定されたURLのファイルを削除する
+     *
+     * @param url 削除するファイルのURL
+     */
+    void delete(String url);
 }

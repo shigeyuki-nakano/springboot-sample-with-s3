@@ -1,6 +1,7 @@
 package com.example.springboot.sample.with.s3.repository.impl;
 
 import com.example.springboot.sample.with.s3.entity.ImageEntity;
+import com.example.springboot.sample.with.s3.entity.MemoDetailEntity;
 import com.example.springboot.sample.with.s3.entity.MemoEntity;
 import com.example.springboot.sample.with.s3.mapper.ImageMapper;
 import com.example.springboot.sample.with.s3.mapper.MemoMapper;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,18 +20,16 @@ public class FoodMemoRepositoryImpl implements FoodMemoRepository {
     private final MemoMapper memoMapper;
     private final ImageMapper imageMapper;
 
+    public Optional<FoodMemo> findById(int id) {
+        final var entity = memoMapper.findById(id);
+        return entity.map(MemoDetailEntity::convert);
+    }
+
     public List<FoodMemo> findAll() {
         final var entityList = memoMapper.findAll();
 
         return entityList.stream()
-                .map(entity -> FoodMemo.builder()
-                        .id(entity.getId())
-                        .title(entity.getTitle())
-                        .content(entity.getContent())
-                        .imagePaths(entity.getImages().stream()
-                                .map(ImageEntity::getPath)
-                                .toList())
-                        .build())
+                .map(MemoDetailEntity::convert)
                 .toList();
     }
 
@@ -43,5 +43,10 @@ public class FoodMemoRepositoryImpl implements FoodMemoRepository {
                                 .memoId(memoEntity.getId())
                                 .path(imagePath)
                                 .build()));
+    }
+
+    public void deleteById(int id) {
+        memoMapper.deleteById(id);
+        imageMapper.deleteByMemoId(id);
     }
 }

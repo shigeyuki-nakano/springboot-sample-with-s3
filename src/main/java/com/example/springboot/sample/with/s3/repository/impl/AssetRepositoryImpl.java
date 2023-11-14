@@ -1,6 +1,7 @@
 package com.example.springboot.sample.with.s3.repository.impl;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.springboot.sample.with.s3.config.S3Config;
 import com.example.springboot.sample.with.s3.repository.AssetRepository;
@@ -26,5 +27,14 @@ public class AssetRepositoryImpl implements AssetRepository {
         s3Client.putObject(request);
 
         return s3Config.getWebEndpoint() + "/" + objectKey;
+    }
+
+    public void delete(String url) {
+        final var objectKey = url.replace(s3Config.getWebEndpoint() + "/", "");
+        final var request = new DeleteObjectRequest(
+                s3Config.getBucketName(),
+                objectKey);
+
+        s3Client.deleteObject(request);
     }
 }

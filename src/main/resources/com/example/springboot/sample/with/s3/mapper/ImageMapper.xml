@@ -7,4 +7,10 @@
         INSERT INTO image (memo_id, path)
         VALUES (#{entity.memoId}, #{entity.path})
     </insert>
+
+    <delete id="deleteByMemoId">
+        DELETE
+        FROM image
+        WHERE memo_id = #{memoId}
+    </delete>
 </mapper>

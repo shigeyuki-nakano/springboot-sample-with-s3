@@ -8,4 +8,6 @@ import org.apache.ibatis.annotations.Param;
 public interface ImageMapper {
 
     int register(@Param("entity") ImageEntity entity);
+
+    int deleteByMemoId(@Param("memoId") int memoId);
 }
