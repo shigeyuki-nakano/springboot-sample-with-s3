@@ -1,5 +1,6 @@
 package com.example.springboot.sample.with.s3.service;
 
+import com.example.springboot.sample.with.s3.converter.MultipartFileToFileConverter;
 import com.example.springboot.sample.with.s3.dto.FoodMemoRegisterRequestDto;
 import com.example.springboot.sample.with.s3.dto.FoodMemoResponseDto;
 import com.example.springboot.sample.with.s3.model.FoodMemo;
@@ -16,6 +17,7 @@ public class FoodMemoService {
 
     private final FoodMemoRepository foodMemoRepository;
     private final AssetRepository assetRepository;
+    private final MultipartFileToFileConverter multipartFileToFileConverter;
 
     public List<FoodMemoResponseDto> findAll() {
         final var result = foodMemoRepository.findAll();
@@ -25,7 +27,13 @@ public class FoodMemoService {
     }
 
     public void register(FoodMemoRegisterRequestDto request) {
-        final var imagePaths = assetRepository.upload(request.getImageDataList());
+        final var imageFileList = request.getImageDataList().stream()
+                .map(multipartFileToFileConverter::convert)
+                .toList();
+
+        final var imagePaths = imageFileList.stream()
+                .map(assetRepository::upload)
+                .toList();
         foodMemoRepository.register(FoodMemo.builder()
                 .title(request.getTitle())
                 .content(request.getContent())

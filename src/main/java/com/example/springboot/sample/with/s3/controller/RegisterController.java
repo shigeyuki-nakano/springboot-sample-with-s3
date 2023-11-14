@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/create")
 @RequiredArgsConstructor
-public class RegisterPageController {
+public class RegisterController {
 
     private final FoodMemoService foodMemoService;
 

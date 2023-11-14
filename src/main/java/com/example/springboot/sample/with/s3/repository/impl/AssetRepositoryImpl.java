@@ -1,15 +1,30 @@
 package com.example.springboot.sample.with.s3.repository.impl;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.example.springboot.sample.with.s3.config.S3Config;
 import com.example.springboot.sample.with.s3.repository.AssetRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.File;
 
 @Repository
+@RequiredArgsConstructor
 public class AssetRepositoryImpl implements AssetRepository {
 
-    public List<String> upload(List<MultipartFile> imageDataList) {
-        return List.of("https://1.bp.blogspot.com/-PjZz2WJ1Zj0/VMIvCILIJzI/AAAAAAAAq2w/bmdFdi5l4Z4/s800/fish_neontetra.png");
+    private final AmazonS3 s3Client;
+    private final S3Config s3Config;
+    private static final String BASE_KEY = "food_memo/";
+
+    public String upload(File file) {
+        final var objectKey = BASE_KEY + file.getName();
+        final var request = new PutObjectRequest(
+                s3Config.getBucketName(),
+                objectKey,
+                file);
+        s3Client.putObject(request);
+
+        return s3Config.getWebEndpoint() + "/" + objectKey;
     }
 }

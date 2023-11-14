@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
-public class TopPageController {
+public class TopController {
 
     private final FoodMemoService foodMemoService;
 
