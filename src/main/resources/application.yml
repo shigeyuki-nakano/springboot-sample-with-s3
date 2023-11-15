@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/food_memo
+    url: ${DB_JDBC_URL}
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: food_memo
-    password: food_memo
+    username: ${DB_USER:food_memo}
+    password: ${DB_PASSWORD:food_memo}
 
   mvc:
     hiddenmethod:
