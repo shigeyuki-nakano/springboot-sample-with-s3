@@ -11,9 +11,6 @@ spring:
         enabled: true
 
 aws:
-  credential:
-    accessKey: ${AWS_ACCESS_KEY}
-    secretKey: ${AWS_SECRET_KEY}
   s3:
     region: ${AWS_S3_REGION}
     bucketName: ${AWS_S3_BUCKET_NAME}
