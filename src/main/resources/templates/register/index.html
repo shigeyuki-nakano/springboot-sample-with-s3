@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>SpringBoot sample with Amazon S3</title>
-</head>
+<head th:replace="common :: meta_header('register',~{::link},~{::script})"></head>
 <body>
+<div th:insert="~{component/_header}"></div>
 <form
         action="#"
         method="post"
         th:action="@{/register}"
         th:object="${request}"
-        enctype="multipart/form-data">
-    <div>
-        <label>
-            title:<br/>
-            <input type="text" th:field="${request.title}"/>
-        </label>
+        enctype="multipart/form-data"
+        class="container">
+    <div class="mb-3">
+        <label class="form-label" for="title">タイトル</label>
+        <input class="form-control" id="title" type="text" th:field="${request.title}"/>
         <!--        <div th:errors="*{title}" th:if="${#fields.hasErrors('title')}"></div>-->
     </div>
-    <div>
-        <label>
-            content:<br/>
-            <textarea name="content" th:field="${request.content}"></textarea>
-        </label>
+    <div class="mb-3">
+        <label class="form-label" for="content">内容</label>
+        <textarea
+                class="form-control"
+                style="height:200px"
+                id="content"
+                name="content"
+                th:field="${request.content}"></textarea>
         <!--        <div th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></div>-->
     </div>
-    <div>
-        <label>
-            image:<br/>
-            <input id="image" type="file" th:field="${request.imageDataList}" accept="image/jpeg, image/png" multiple>
-        </label>
+    <div class="mb-3">
+        <label class="form-label" for="image">画像</label>
+        <input
+                id="image"
+                type="file"
+                th:field="${request.imageDataList}"
+                accept="image/jpeg, image/png"
+                multiple>
         <!--        <div th:errors="*{imageDataList}" th:if="${#fields.hasErrors('imageDataList')}"></div>-->
     </div>
     <div id="image-preview"></div>

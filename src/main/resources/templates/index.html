@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>SpringBoot sample with Amazon S3</title>
+<head th:replace="common :: meta_header('top',~{::link},~{::script})">
 </head>
 <body>
-<table>
+<div th:insert="~{component/_header}"></div>
+<table class="table container">
     <tr>
-        <th>id</th>
-        <th>title</th>
-        <th>content</th>
-        <th>images</th>
-        <th></th>
+        <th scope="col" style="width: 5%">id</th>
+        <th scope="col" style="width: 25%">title</th>
+        <th scope="col" style="width: 25%">content</th>
+        <th scope="col" style="width: 30%">images</th>
+        <th scope="col" style="width: 5%"></th>
     </tr>
     <tr th:each="foodMemo : ${foodMemoList}">
-        <td th:text="${foodMemo.id}"></td>
+        <th scope="row" th:text="${foodMemo.id}"></th>
         <td th:text="${foodMemo.title}"></td>
         <td th:text="${foodMemo.content}"></td>
-        <td>
-            <div th:each="imagePath : ${foodMemo.imagePaths}">
-                <img th:src="${imagePath}" alt="食べ物メモ画像"/>
+        <td class="row overflow-scroll">
+            <div class="col" th:each="imagePath : ${foodMemo.imagePaths}">
+                <img th:src="${imagePath}" alt="食べ物メモ画像" style="max-height: 300px"/>
             </div>
         </td>
         <td>
             <form action="#"
                   th:method="delete"
                   th:action="@{/{id}(id=${foodMemo.getId()})}">
-                <input type="submit" value="削除"/>
+                <input class="btn btn-danger" type="submit" value="削除"/>
             </form>
         </td>
     </tr>
